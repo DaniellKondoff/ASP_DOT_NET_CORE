@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1.SchoolCompetition", "1.SchoolCompetition\1.SchoolCompetition.csproj", "{3BD37378-A3B2-4094-BFD3-3DD2BD3054AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.OneToMany", "2.OneToMany\2.OneToMany.csproj", "{71820120-B0B1-41AD-BC97-D32525BE8258}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.OneToMany", "2.OneToMany\2.OneToMany.csproj", "{71820120-B0B1-41AD-BC97-D32525BE8258}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "5.ShopHierchy", "5.ShopHierchy\5.ShopHierchy.csproj", "{21DC96A2-F166-46D6-9353-DB60D6193D32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{71820120-B0B1-41AD-BC97-D32525BE8258}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71820120-B0B1-41AD-BC97-D32525BE8258}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71820120-B0B1-41AD-BC97-D32525BE8258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21DC96A2-F166-46D6-9353-DB60D6193D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21DC96A2-F166-46D6-9353-DB60D6193D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21DC96A2-F166-46D6-9353-DB60D6193D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21DC96A2-F166-46D6-9353-DB60D6193D32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
