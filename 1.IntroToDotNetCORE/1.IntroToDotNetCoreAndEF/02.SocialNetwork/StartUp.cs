@@ -19,8 +19,30 @@ namespace _02.SocialNetwork
 
                 //Task 3
                 PrintAllAlbums(db);
+                PrintPictureInMoreThanTwoAlbums(db);
+                PrintAlbumsOnGivenUser(db);
                 db.SaveChanges();
             }
+        }
+
+        private static void PrintAlbumsOnGivenUser(SocialNetworkDB db)
+        {
+            
+        }
+
+        private static void PrintPictureInMoreThanTwoAlbums(SocialNetworkDB db)
+        {
+            var pictures = db.Pictures
+                .Where(p => p.Albums.Count > 2)
+                .OrderByDescending(a=>a.Albums.Count)
+                .ThenBy(a=>a.Title)
+                .Select(p => new
+                {
+                    p.Title,
+                    AlbumsName = p.Albums.Select(a => a.Album.Name),
+                    AlbumOwners = p.Albums.Select(a => a.Album.User.Username)
+                })
+                .ToList();
         }
 
         private static void PrintAllAlbums(SocialNetworkDB db)

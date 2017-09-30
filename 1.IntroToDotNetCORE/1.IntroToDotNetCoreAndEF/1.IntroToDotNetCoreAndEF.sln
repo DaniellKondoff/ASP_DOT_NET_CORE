@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.OneToMany", "2.OneToMany\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "5.ShopHierchy", "5.ShopHierchy\5.ShopHierchy.csproj", "{21DC96A2-F166-46D6-9353-DB60D6193D32}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1.StudentSystem", "1.StudentSystem\1.StudentSystem.csproj", "{BEF5C93A-EEA5-4801-8FE2-AAE377E0A19B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01.StudentSystem", "1.StudentSystem\01.StudentSystem.csproj", "{BEF5C93A-EEA5-4801-8FE2-AAE377E0A19B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.SocialNetwork", "02.SocialNetwork\02.SocialNetwork.csproj", "{182D8AFD-0A8A-4139-A35E-3401EF6DA8C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02.SocialNetwork", "02.SocialNetwork\02.SocialNetwork.csproj", "{182D8AFD-0A8A-4139-A35E-3401EF6DA8C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
