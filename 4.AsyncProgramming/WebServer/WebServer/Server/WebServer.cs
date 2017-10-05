@@ -1,0 +1,51 @@
+﻿namespace WebServerr.Server
+{
+    using System;
+    using global::WebServer.Server.Routing.Contracts;
+    using System.Net.Sockets;
+    using System.Net;
+    using global::WebServer.Server.Routing;
+    using global::WebServer.Server.Contracts;
+    using System.Threading.Tasks;
+    using global::WebServer.Server;
+
+    public class WebServer : IRunnable
+    {
+        private const string localHostIpAddres = "127.0.0.1";
+        private readonly int port;
+
+        private readonly IServerRouteConfig serverRouteConfig;
+
+        private readonly TcpListener listener;
+
+        private bool isRunning;
+
+        public WebServer(int port, IAppRouteConfig appRouteConfig)
+        {
+            this.port = port;
+            this.listener = new TcpListener(IPAddress.Parse(localHostIpAddres), port);
+            this.serverRouteConfig = new ServerRouteConfig(appRouteConfig);
+
+        }
+        public void Run()
+        {
+            this.listener.Start();
+            this.isRunning = true;
+
+            Console.WriteLine($"Server running on {localHostIpAddres}:{this.port}");
+
+            Task.Run(this.ListenLoop).Wait();
+        }
+
+        private async Task ListenLoop()
+        {
+            while (this.isRunning)
+            {
+                var client = await this.listener.AcceptSocketAsync();
+                var connectionHandler = new ConnectionHandler(client, this.serverRouteConfig);
+
+                await connectionHandler.ProccesRequestAsync();
+            }
+        }
+    }
+}
