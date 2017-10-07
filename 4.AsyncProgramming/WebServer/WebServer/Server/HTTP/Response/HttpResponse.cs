@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Text;
 using WebServer.Server.Common;
 using WebServer.Server.Contracts;
@@ -16,9 +14,12 @@ namespace WebServer.Server.HTTP
         protected HttpResponse()
         {
             this.Headers = new HttpHeaderCollection();
+            this.Cookies = new HttpCookieCollection();
         }
 
-        public HttpHeaderCollection Headers { get; }
+        public IHttpHeaderCollection Headers { get; }
+
+        public IHttpCookieCollection Cookies { get; }
 
         public HttpStatusCode StatusCode { get; protected set; }
 
@@ -32,7 +33,7 @@ namespace WebServer.Server.HTTP
             response.AppendLine($"HTTP/1.1 {statusCodeNumber} {this.statusCodeMessage}");
 
             response.AppendLine(this.Headers.ToString());
-            response.AppendLine();
+            //response.AppendLine();
 
             return response.ToString();
         }

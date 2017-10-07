@@ -14,7 +14,7 @@ namespace WebServer.Application
                 .Get("/", request => new HomeController().Index());
 
             appRouteConfig
-                .AddRoute("/about", new GetHandler(request => new HomeController().About()));
+                .Get("/about",request => new HomeController().About());
         }
     }
 }

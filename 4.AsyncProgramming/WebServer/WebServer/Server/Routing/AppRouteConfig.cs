@@ -27,28 +27,17 @@
 
         public void Get(string route, Func<IHttpRequest,IHttpResponse> handler)
         {
-            this.AddRoute(route, new GetHandler(handler));
+            this.AddRoute(route, HttpRequestMethod.GET, new GetHandler(handler));
         }
 
         public void Post(string route, Func<IHttpRequest, IHttpResponse> handler)
         {
-            this.AddRoute(route, new PostHandler(handler));
+            this.AddRoute(route, HttpRequestMethod.POST, new PostHandler(handler));
         }
 
-        public void AddRoute(string route, RequestHandler httpHandler)
+        public void AddRoute(string route, HttpRequestMethod method, RequestHandler httpHandler)
         {
-            if (httpHandler.GetType().ToString().ToLower().Contains("get"))
-            {
-                this.routes[HttpRequestMethod.GET].Add(route, httpHandler);
-            }
-            else if (httpHandler.GetType().ToString().ToLower().Contains("post"))
-            {
-                this.routes[HttpRequestMethod.POST].Add(route, httpHandler);
-            }
-            else
-            {
-                throw new InvalidOperationException("Invalid Handler.");
-            }
+            this.routes[method].Add(route, httpHandler);
         }
     }
 }

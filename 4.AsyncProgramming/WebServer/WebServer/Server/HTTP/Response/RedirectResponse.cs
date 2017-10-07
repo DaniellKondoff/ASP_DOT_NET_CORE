@@ -13,7 +13,7 @@ namespace WebServer.Server.HTTP.Response
             CoreValidator.ThrowIfNull(redirectUrl, nameof(redirectUrl));
 
             this.StatusCode = HttpStatusCode.Found;
-            this.Headers.Add(new HttpHeader("Location", redirectUrl));
+            this.Headers.Add(HttpHeader.Location, redirectUrl);
         }
     }
 }

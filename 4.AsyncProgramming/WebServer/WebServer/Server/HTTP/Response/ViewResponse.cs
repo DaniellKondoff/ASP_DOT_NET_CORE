@@ -14,8 +14,11 @@ namespace WebServer.Server.HTTP.Response
         public ViewResponse(HttpStatusCode statusCode, IView view)
         {
             this.ValidateStatusCode(statusCode);
+
             this.view = view;
             this.StatusCode = statusCode;
+
+            this.Headers.Add(HttpHeader.ContentType, "text/html");
         }
 
         private void ValidateStatusCode(HttpStatusCode statusCode)

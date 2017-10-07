@@ -3,6 +3,7 @@ using WebServer.Application.Views.Home;
 using WebServer.Server.HTTP.Contracts;
 using WebServer.Server.HTTP.Response;
 using System.Net;
+using WebServer.Server.HTTP;
 
 namespace WebServer.Application.Controllers
 {
@@ -11,7 +12,11 @@ namespace WebServer.Application.Controllers
         //GET/
         public IHttpResponse Index()
         {
-            return new ViewResponse(HttpStatusCode.OK, new IndexView());
+            var response =  new ViewResponse(HttpStatusCode.OK, new IndexView());
+
+            response.Cookies.Add(new HttpCookie("lang", "en"));
+
+            return response;
         }
 
         internal IHttpResponse About()

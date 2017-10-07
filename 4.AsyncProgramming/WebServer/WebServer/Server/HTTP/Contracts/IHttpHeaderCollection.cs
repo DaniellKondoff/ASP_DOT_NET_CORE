@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace WebServer.Server.HTTP.Contracts
 {
-    public interface IHttpHeaderCollection
+    public interface IHttpHeaderCollection : IEnumerable<ICollection<HttpHeader>>
     {
         void Add(HttpHeader header);
 
+        void Add(string key, string value);
+
         bool ContainsKey(string key);
 
-        HttpHeader Get(string key);
+        ICollection<HttpHeader> Get(string key);
     }
 }

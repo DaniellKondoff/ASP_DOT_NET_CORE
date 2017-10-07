@@ -1,8 +1,8 @@
 ﻿namespace WebServer.Server.Handlers
 {
-    using System;
-    using System.Collections.Generic;
+
     using System.Text.RegularExpressions;
+    using WebServer.Server.Common;
     using WebServer.Server.Handlers.Contracts;
     using WebServer.Server.HTTP.Contracts;
     using WebServer.Server.HTTP.Response;
@@ -11,10 +11,14 @@
     public class HttpHandler : IRequestHandler
     {
         private readonly IServerRouteConfig serverRouteConfig;
+
         public HttpHandler(IServerRouteConfig routeConfig)
         {
+            CoreValidator.ThrowIfNull(routeConfig, nameof(routeConfig));
+
             this.serverRouteConfig = routeConfig;
         }
+
         public IHttpResponse Handle(IHttpContext httpContext)
         {
             var requestMethod = httpContext.Request.Method;
