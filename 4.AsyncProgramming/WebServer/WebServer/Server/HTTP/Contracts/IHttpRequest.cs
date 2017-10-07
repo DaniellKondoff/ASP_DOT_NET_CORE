@@ -24,5 +24,7 @@ namespace WebServer.Server.HTTP.Contracts
         IDictionary<string, string> UrlParameters { get; }
 
         void AddUrlParameter(string key, string value);
+
+        IHttpSession Session { get; set; }
     }
 }

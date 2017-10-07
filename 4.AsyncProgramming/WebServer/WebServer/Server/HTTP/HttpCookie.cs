@@ -34,7 +34,7 @@ namespace WebServer.Server.HTTP
 
         public override string ToString()
         {
-            return $"{this.Key}={this.Value}; Expires={Expires.ToLongTimeString()}";      
+            return $"{this.Key}={this.Value}; Expires={this.Expires.ToLongTimeString()}";
         }
 
     }

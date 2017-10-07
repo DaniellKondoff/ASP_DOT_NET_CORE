@@ -20,6 +20,7 @@
             var mainApplication = new MainApplication();
             var appRouteConfig = new AppRouteConfig();
             mainApplication.Configure(appRouteConfig);
+
             this.webServer = new WebServer(1337, appRouteConfig);
 
             this.webServer.Run();

@@ -11,18 +11,20 @@ namespace WebServer.Server.HTTP
 {
     public class HttpRequest : IHttpRequest
     {
+        private readonly string requestText;
 
         public HttpRequest(string requestText)
         {
             CoreValidator.ThrowIfNullOrEmpty(requestText, nameof(requestText));
 
+            this.requestText = requestText;
             this.FormData = new Dictionary<string, string>();
             this.Headers = new HttpHeaderCollection();
             this.UrlParameters = new Dictionary<string, string>();
             this.Cookies = new HttpCookieCollection();
             this.QueryParameters = new Dictionary<string, string>();
 
-            this.ParseRequest(requestText);
+            this.ParseRequest(this.requestText);
         }
 
         public IDictionary<string, string> FormData { get; private set; }
@@ -40,6 +42,8 @@ namespace WebServer.Server.HTTP
         public string URL { get; private set; }
 
         public IDictionary<string, string> UrlParameters { get; private set; }
+
+        public IHttpSession Session { get; set; }
 
 
 
@@ -75,8 +79,9 @@ namespace WebServer.Server.HTTP
             this.ParseCookies();
             this.ParseParameters();
             this.ParseFormData(requestLines.Last());
-        }
 
+            this.SetSession();
+        }
 
         private HttpRequestMethod ParseMethod(string method)
         {
@@ -158,21 +163,28 @@ namespace WebServer.Server.HTTP
                 //Cookie: id=15; Secure;
                 foreach (var cookie in allCookies)
                 {
-                    var cookieParts = cookie.Value.Split(new[] { ';' },StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+                    if (!cookie.Value.Contains('='))
+                    {
+                        return;
+                    }
+                    var cookieParts = cookie.Value.Split(new[] { ';' },StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                    if (cookieParts == null || !cookieParts.Contains('='))
+                    if (!cookieParts.Any())
                     {
                         continue;
                     }
 
-                    var cookieKvp = cookieParts.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    if (cookieKvp.Length == 2)
+                    foreach (var cookiePart in cookieParts)
                     {
-                        var key = cookieKvp[0];
-                        var value = cookieKvp[1];
+                        var cookieKvp = cookiePart.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
 
-                        this.Cookies.Add(new HttpCookie(key, value, false));
+                        if (cookieKvp.Length == 2)
+                        {
+                            var key = cookieKvp[0].Trim();
+                            var value = cookieKvp[1].Trim();
+
+                            this.Cookies.Add(new HttpCookie(key, value, false));
+                        }
                     }
                 }
             }
@@ -201,6 +213,21 @@ namespace WebServer.Server.HTTP
             // username=pesho&pass=123
             this.ParseQuery(formDataLine, this.QueryParameters);
         }
+
+        private void SetSession()
+        {
+            //Cookie: SID = hahhasdfkaksdas
+
+            if (this.Cookies.ContainsKey(SessionStore.SessionCookieKey))
+            {
+                var cookie = this.Cookies.Get(SessionStore.SessionCookieKey);
+                var sessionID = cookie.Value;
+
+                this.Session = SessionStore.Get(sessionID);
+            }
+        }
+
+        public override string ToString() => this.requestText;
 
     }
 }

@@ -19,9 +19,21 @@ namespace WebServer.Application.Controllers
             return response;
         }
 
-        internal IHttpResponse About()
+        //Get /testSession
+        public IHttpResponse SessionTest(IHttpRequest request)
         {
-            throw new NotImplementedException();
+            var session = request.Session;
+
+            const string SessionDateKey = "saved_date";
+
+            if (session.Get(SessionDateKey) == null)
+            {
+                session.Add(SessionDateKey, DateTime.UtcNow);
+            }
+
+            var response = new ViewResponse(HttpStatusCode.OK, new SessionTestView(session.Get<DateTime>(SessionDateKey)));
+
+            return response;
         }
     }
 }

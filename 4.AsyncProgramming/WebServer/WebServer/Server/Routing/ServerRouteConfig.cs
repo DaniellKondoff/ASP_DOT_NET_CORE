@@ -8,7 +8,7 @@
     using Enums;
     using Routing.Contracts;
 
-    class ServerRouteConfig : IServerRouteConfig
+    public class ServerRouteConfig : IServerRouteConfig
     {
         private readonly IDictionary<HttpRequestMethod, IDictionary<string, IRoutingContext>> routes;
 
@@ -16,9 +16,13 @@
         {
             this.routes = new Dictionary<HttpRequestMethod, IDictionary<string, IRoutingContext>>();
 
-            foreach (HttpRequestMethod requestMethod in Enum.GetValues(typeof(HttpRequestMethod)).Cast<HttpRequestMethod>())
+            var availableMethods = Enum
+                .GetValues(typeof(HttpRequestMethod))
+                .Cast<HttpRequestMethod>();
+
+            foreach (var method in availableMethods)
             {
-                this.routes.Add(requestMethod, new Dictionary<string, IRoutingContext>());
+                this.routes[method] = new Dictionary<string, IRoutingContext>();
             }
 
             this.InitializeRouteConfig(appRouteConfig);
@@ -26,18 +30,17 @@
 
         public IDictionary<HttpRequestMethod, IDictionary<string, IRoutingContext>> Routes => this.routes;
 
-
         private void InitializeRouteConfig(IAppRouteConfig appRouteConfig)
         {
-            foreach (var registerRoute in appRouteConfig.Routes)
+            foreach (var registeredRoute in appRouteConfig.Routes)
             {
-                var requestMethod = registerRoute.Key;
-                var routeHandlers = registerRoute.Value;
+                var requestMethod = registeredRoute.Key;
+                var routesWithHandlers = registeredRoute.Value;
 
-                foreach (var routeHandler in routeHandlers)
+                foreach (var routeWithHandler in routesWithHandlers)
                 {
-                    var route = routeHandler.Key;
-                    var handler = routeHandler.Value;
+                    var route = routeWithHandler.Key;
+                    var handler = routeWithHandler.Value;
 
                     var parameters = new List<string>();
 
@@ -52,15 +55,14 @@
 
         private string ParseRoute(string route, List<string> parameters)
         {
-            var result = new StringBuilder();
-            //result.Append("/");
-            result.Append("^");
-
-            if (route=="/")
+            if (route == "/")
             {
-                result.Append("/$");
-                return result.ToString();
+                return "^/$";
             }
+
+            var result = new StringBuilder();
+
+            result.Append("^/");
 
             var tokens = route.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -87,18 +89,18 @@
 
                 if (!parameterMatch.Success)
                 {
-                    throw new InvalidOperationException($"Route parameter in '{currentToken}' is not valid");
+                    throw new InvalidOperationException($"Route parameter in '{currentToken}' is not valid.");
                 }
 
                 var match = parameterMatch.Value;
-                var paramter = match.Substring(1, match.Length - 2);
+                var parameter = match.Substring(1, match.Length - 2);
 
-                parameters.Add(paramter);
+                parameters.Add(parameter);
 
-                var currentTokenWithoutCurclyBrackets = currentToken.Substring(1, currentToken.Length - 2);
+                var currentTokenWithoutCurlyBrackets = currentToken.Substring(1, currentToken.Length - 2);
 
-                result.Append($"{currentTokenWithoutCurclyBrackets}{end}");
-            }       
+                result.Append($"{currentTokenWithoutCurlyBrackets}{end}");
+            }
         }
     }
 }

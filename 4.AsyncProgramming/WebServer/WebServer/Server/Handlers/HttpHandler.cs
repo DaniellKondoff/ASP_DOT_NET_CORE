@@ -48,7 +48,7 @@
                     httpContext.Request.AddUrlParameter(parameter, parameterValue);
                 }
 
-                return routingContext.RequestHandler.Handle(httpContext);
+                return routingContext.Handler.Handle(httpContext);
             }
 
             return new NotFoundResponse();

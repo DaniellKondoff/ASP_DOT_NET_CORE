@@ -13,8 +13,9 @@ namespace WebServer.Application
             appRouteConfig
                 .Get("/", request => new HomeController().Index());
 
-            appRouteConfig
-                .Get("/about",request => new HomeController().About());
+            appRouteConfig.Get(
+                "/testsession",
+                req => new HomeController().SessionTest(req));
         }
     }
 }

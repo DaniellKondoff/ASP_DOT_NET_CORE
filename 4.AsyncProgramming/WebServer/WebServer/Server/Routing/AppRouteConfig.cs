@@ -11,33 +11,37 @@
     public class AppRouteConfig : IAppRouteConfig
     {
 
-        private readonly Dictionary<HttpRequestMethod, Dictionary<string, RequestHandler>> routes;
+        private readonly Dictionary<HttpRequestMethod, IDictionary<string, RequestHandler>> routes;
 
         public AppRouteConfig()
         {
-            this.routes = new Dictionary<HttpRequestMethod, Dictionary<string, RequestHandler>>();
+            this.routes = new Dictionary<HttpRequestMethod, IDictionary<string, RequestHandler>>();
 
-            foreach (HttpRequestMethod requestMethod in Enum.GetValues(typeof(HttpRequestMethod)).Cast<HttpRequestMethod>())
+            var availableMethods = Enum
+                .GetValues(typeof(HttpRequestMethod))
+                .Cast<HttpRequestMethod>();
+
+            foreach (var method in availableMethods)
             {
-                this.routes.Add(requestMethod, new Dictionary<string, RequestHandler>());
+                this.routes[method] = new Dictionary<string, RequestHandler>();
             }
         }
 
-        public IReadOnlyDictionary<HttpRequestMethod, Dictionary<string, RequestHandler>> Routes => this.routes;
+        public IReadOnlyDictionary<HttpRequestMethod, IDictionary<string, RequestHandler>> Routes => this.routes;
 
-        public void Get(string route, Func<IHttpRequest,IHttpResponse> handler)
+        public void Get(string route, Func<IHttpRequest, IHttpResponse> handler)
         {
-            this.AddRoute(route, HttpRequestMethod.GET, new GetHandler(handler));
+            this.AddRoute(route, HttpRequestMethod.GET, new RequestHandler(handler));
         }
 
         public void Post(string route, Func<IHttpRequest, IHttpResponse> handler)
         {
-            this.AddRoute(route, HttpRequestMethod.POST, new PostHandler(handler));
+            this.AddRoute(route, HttpRequestMethod.POST, new RequestHandler(handler));
         }
 
-        public void AddRoute(string route, HttpRequestMethod method, RequestHandler httpHandler)
+        public void AddRoute(string route, HttpRequestMethod method, RequestHandler handler)
         {
-            this.routes[method].Add(route, httpHandler);
+            this.routes[method].Add(route, handler);
         }
     }
 }

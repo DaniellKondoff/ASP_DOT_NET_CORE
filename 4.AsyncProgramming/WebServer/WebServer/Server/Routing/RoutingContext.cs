@@ -13,10 +13,10 @@
             CoreValidator.ThrowIfNull(parameters, nameof(parameters));
 
             this.Parameters = parameters;
-            this.RequestHandler = requestHandler;
+            this.Handler = requestHandler;
         }
         public IEnumerable<string> Parameters { get; private set; }
 
-        public RequestHandler RequestHandler { get; private set; }
+        public RequestHandler Handler { get; private set; }
     }
 }

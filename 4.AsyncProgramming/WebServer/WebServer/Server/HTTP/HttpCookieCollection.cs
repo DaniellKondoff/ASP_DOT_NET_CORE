@@ -51,7 +51,8 @@ namespace WebServer.Server.HTTP
 
         public IEnumerator<HttpCookie> GetEnumerator() => this.cookies.Values.GetEnumerator();
         
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        
+        IEnumerator IEnumerable.GetEnumerator() => this.cookies.Values.GetEnumerator();
+
+
     }
 }

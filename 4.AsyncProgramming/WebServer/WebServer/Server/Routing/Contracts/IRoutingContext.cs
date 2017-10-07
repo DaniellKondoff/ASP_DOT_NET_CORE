@@ -6,6 +6,6 @@
     public interface IRoutingContext
     {
         IEnumerable<string> Parameters { get; }
-        RequestHandler RequestHandler { get; }
+        RequestHandler Handler { get; }
     }
 }

@@ -25,13 +25,13 @@ namespace WebServer.Server.HTTP
 
             if (!this.headers.ContainsKey(headerKey))
             {
-                this.headers[header.Key] = new List<HttpHeader>();
+                this.headers[headerKey] = new List<HttpHeader>();
             }
 
-            this.headers[header.Key].Add(header);
+            this.headers[headerKey].Add(header);
         }
 
-        public void Add(string key,string value)
+        public void Add(string key, string value)
         {
             CoreValidator.ThrowIfNullOrEmpty(key, nameof(key));
             CoreValidator.ThrowIfNullOrEmpty(value, nameof(value));
@@ -52,29 +52,32 @@ namespace WebServer.Server.HTTP
 
             if (!this.headers.ContainsKey(key))
             {
-                throw new InvalidOperationException($"The given key {key} is not present in the Header Collection");
+                throw new InvalidOperationException($"The given key {key} is not present in the headers collection.");
             }
 
             return this.headers[key];
         }
 
-        public IEnumerator<ICollection<HttpHeader>> GetEnumerator() => this.headers.Values.GetEnumerator();
+        public IEnumerator<ICollection<HttpHeader>> GetEnumerator()
+            => this.headers.Values.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-       
+        IEnumerator IEnumerable.GetEnumerator()
+            => this.headers.Values.GetEnumerator();
+
         public override string ToString()
         {
             var result = new StringBuilder();
 
             foreach (var header in this.headers)
             {
-                var headerKey = header.Value;
+                var headerKey = header.Key;
 
                 foreach (var headerValue in header.Value)
                 {
                     result.AppendLine($"{headerKey}: {headerValue.Value}");
                 }
             }
+
             return result.ToString();
         }
 
