@@ -17,5 +17,7 @@ namespace WebServer.Server.HTTP.Contracts
         void Clear();
 
         //bool IsAuthenticated();
+
+        bool Contains(string key);
     }
 }

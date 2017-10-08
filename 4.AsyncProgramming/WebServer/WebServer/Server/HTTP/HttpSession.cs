@@ -46,5 +46,8 @@ namespace WebServer.Server.HTTP
         {
             return (T)this.Get(key);
         }
+
+        public bool Contains(string key) => this.values.ContainsKey(key);
+
     }
 }

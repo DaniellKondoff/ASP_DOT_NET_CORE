@@ -75,7 +75,7 @@
                 }
             }
 
-            if (result.Length ==0)
+            if (result.Length == 0)
             {
                 return null;
             }

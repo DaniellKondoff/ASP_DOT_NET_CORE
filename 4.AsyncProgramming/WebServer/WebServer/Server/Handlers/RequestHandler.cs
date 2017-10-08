@@ -13,41 +13,43 @@
         public RequestHandler(Func<IHttpRequest, IHttpResponse> handlingFunc)
         {
             CoreValidator.ThrowIfNull(handlingFunc, nameof(handlingFunc));
+
             this.handlingFunc = handlingFunc;
         }
 
-        public IHttpResponse Handle(IHttpContext httpContext)
+        public IHttpResponse Handle(IHttpContext context)
         {
             string sessionIdToSend = null;
 
-            if (!httpContext.Request.Cookies.ContainsKey(SessionStore.SessionCookieKey))
+            if (!context.Request.Cookies.ContainsKey(SessionStore.SessionCookieKey))
             {
                 var sessionId = Guid.NewGuid().ToString();
 
-                httpContext.Request.Session = SessionStore.Get(sessionId);
+                context.Request.Session = SessionStore.Get(sessionId);
 
                 sessionIdToSend = sessionId;
             }
 
-            IHttpResponse httpResponse = this.handlingFunc(httpContext.Request);
+            var response = this.handlingFunc(context.Request);
 
             if (sessionIdToSend != null)
             {
-                httpResponse.Headers.Add(HttpHeader.SetCookie,
+                response.Headers.Add(
+                    HttpHeader.SetCookie,
                     $"{SessionStore.SessionCookieKey}={sessionIdToSend}; HttpOnly; path=/");
             }
 
-            if (!httpResponse.Headers.ContainsKey(HttpHeader.ContentType))
+            if (!response.Headers.ContainsKey(HttpHeader.ContentType))
             {
-                httpResponse.Headers.Add(HttpHeader.ContentType, "text/plain");
+                response.Headers.Add(HttpHeader.ContentType, "text/plain");
             }
 
-            foreach (var cookie in httpResponse.Cookies)
+            foreach (var cookie in response.Cookies)
             {
-                httpResponse.Headers.Add(HttpHeader.SetCookie, cookie.ToString());
+                response.Headers.Add(HttpHeader.SetCookie, cookie.ToString());
             }
 
-            return httpResponse;
+            return response;
         }
     }
 }
