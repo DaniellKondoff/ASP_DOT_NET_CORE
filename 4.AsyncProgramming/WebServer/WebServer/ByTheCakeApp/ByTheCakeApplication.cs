@@ -21,7 +21,7 @@ namespace WebServer.ByTheCakeApp
                 .Post("/add", request => new CakeController().Add(request.FormData["name"],request.FormData["price"]));
 
             appRouteConfig
-                .Get("/search", request => new CakeController().Search(request.UrlParameters));
+                .Get("/search", request => new CakeController().Search(request));
 
             appRouteConfig
                 .Get("/calc", request => new CalculatorController().Calculate());
@@ -35,8 +35,20 @@ namespace WebServer.ByTheCakeApp
 
             appRouteConfig
                 .Post("/login", request => new AccountController()
-                .Login(request.FormData["username"], request.FormData["password"]));
-            
+                .Login(request));
+
+            appRouteConfig
+                .Post("/logout", request => new AccountController().Logout(request));
+
+            appRouteConfig
+                .Get("/shopping/add/{(?<id>[0-9]+)}", request => new ShoppingController().AddToCart(request));
+
+            appRouteConfig
+                .Get("/cart", request => new ShoppingController().ShowCart(request));
+
+            appRouteConfig
+                .Post("/shopping/finish-order", request => new ShoppingController().FinishOrder(request));
+
         }
     }
 }

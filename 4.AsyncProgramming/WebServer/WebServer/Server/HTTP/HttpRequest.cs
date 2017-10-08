@@ -23,6 +23,7 @@ namespace WebServer.Server.HTTP
             this.UrlParameters = new Dictionary<string, string>();
             this.Headers = new HttpHeaderCollection();
             this.Cookies = new HttpCookieCollection();
+            this.QueryParameters = new Dictionary<string, string>();
 
             this.ParseRequest(requestText);
         }
@@ -81,7 +82,6 @@ namespace WebServer.Server.HTTP
             this.ParseCookies();
             this.ParseParameters();
             this.ParseFormData(requestLines.Last());
-
             this.SetSession();
         }
 
@@ -178,6 +178,7 @@ namespace WebServer.Server.HTTP
                 .Split(new[] { '?' }, StringSplitOptions.RemoveEmptyEntries)
                 .Last();
 
+            this.ParseQuery(query, this.QueryParameters);
             this.ParseQuery(query, this.UrlParameters);
         }
 

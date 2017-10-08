@@ -13,21 +13,23 @@ namespace WebServer.ByTheCakeApp.Infrastructure
         public const string DefaultPath = @"ByTheCakeApp\Resource\{0}.html";
         public const string ContentPlaceholder = @"{{{content}}}";
 
+        protected IDictionary<string,string> ViewData { get; private set; }
 
-        public IHttpResponse FileViewResponse(string fileName)
+        protected ControllerBase()
         {
-            var resultHtml = ProccessFileHtml(fileName);
-
-            return new ViewResponse(HttpStatusCode.OK, new FileView(resultHtml));
+            this.ViewData = new Dictionary<string, string>()
+            {
+                ["authDisplay"] = "block"
+            };
         }
 
-        public IHttpResponse FileViewResponse(string fileName,Dictionary<string,string> values)
+        protected IHttpResponse FileViewResponse(string fileName)
         {
             var resultHtml = ProccessFileHtml(fileName);
 
-            if (values != null && values.Any())
+            if ( this.ViewData.Values.Any())
             {
-                foreach (var value in values)
+                foreach (var value in this.ViewData)
                 {
                     resultHtml = resultHtml.Replace($"{{{{{{{value.Key}}}}}}}", value.Value);
                 }

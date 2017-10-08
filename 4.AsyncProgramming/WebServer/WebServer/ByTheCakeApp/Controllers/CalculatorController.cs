@@ -9,10 +9,8 @@ namespace WebServer.ByTheCakeApp.Controllers
     {
         public IHttpResponse Calculate()
         {
-            return this.FileViewResponse(@"calculate\calc", new Dictionary<string, string>
-            {
-                ["display"] = "none"
-            });
+            this.ViewData["display"] = "none";
+            return this.FileViewResponse(@"calculate\calc");
 
         }
 
@@ -25,11 +23,9 @@ namespace WebServer.ByTheCakeApp.Controllers
 
             if (!methodsValid.Contains(method))
             {
-                return this.FileViewResponse(@"calculate\calc", new Dictionary<string, string>
-                {
-                    ["result"] = "Invalid Sign",
-                    ["display"] = "block"
-                });
+                this.ViewData["result"] = "Invalid Sign";
+                this.ViewData["display"] = "block";
+                return this.FileViewResponse(@"calculate\calc");
             }
 
             switch (method)
@@ -48,11 +44,9 @@ namespace WebServer.ByTheCakeApp.Controllers
                     break;
             }
 
-            return this.FileViewResponse(@"calculate\calc", new Dictionary<string, string>
-            {
-                ["result"] = result.ToString(),
-                ["display"] = "block"
-            });
+            this.ViewData["result"] = result.ToString();
+            this.ViewData["display"] = "block";
+            return this.FileViewResponse(@"calculate\calc");
         }
     }
 }
