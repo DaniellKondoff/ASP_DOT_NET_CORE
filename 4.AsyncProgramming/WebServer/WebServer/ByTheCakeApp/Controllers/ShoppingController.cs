@@ -99,5 +99,53 @@ namespace WebServer.ByTheCakeApp.Controllers
 
             return this.FileViewResponse(@"shopping\finish-order");
         }
+
+        public IHttpResponse GetOrdersDetails(IHttpRequest request)
+        {
+            var username = request.Session.Get<string>(SessionStore.CurrentUserKey);
+
+            var userId = this.userService.GetUserId(username);
+            if (userId == null)
+            {
+                throw new InvalidOperationException($"User {username} does not exist");
+            }
+
+            var ordersDetails = this.shoppingService.GetOrders(userId.Value);
+            if (!ordersDetails.Any())
+            {
+                return new RedirectResponse("/");
+            }
+
+            var ordersDetailsToHtml = ordersDetails
+                .Select(o => $@"<tr><td><a href=""/order/{o.Id}"">{o.Id}</a></td><td>{o.CreatedOn.ToShortDateString()}</td><td>${o.Sum:F2}</td></tr>");
+
+            var resultToHtml = string.Join(Environment.NewLine, ordersDetailsToHtml);
+
+            this.ViewData["contentTable"] = resultToHtml;
+
+            return this.FileViewResponse(@"shopping\details");
+        }
+
+        public IHttpResponse GetOrderDetailsById(int orderId)
+        {
+            var order = this.shoppingService.Find(orderId);
+
+            if (order == null)
+            {
+                return new NotFoundResponse();
+            }
+
+            var allProductsbyOrder = order.Products;
+
+            var productsToHtml = allProductsbyOrder
+                .Select(p => $@"<tr><td><a href=""/cakes/{p.Id}"">{p.Name}</a></td><td>{p.Price:F2}</td></tr>");
+
+            var resultForHtml = string.Join(Environment.NewLine, productsToHtml);
+
+            this.ViewData["orderId"] = order.Id.ToString();
+            this.ViewData["contentTable"] = resultForHtml;
+            this.ViewData["createdDate"] = order.CreatedOn.ToShortDateString();
+            return this.FileViewResponse(@"shopping/order-details");
+        }
     }
 }

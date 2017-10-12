@@ -88,6 +88,12 @@ namespace WebServer.ByTheCakeApp
             appRouteConfig
                 .Get("cakes/{(?<id>[0-9]+)}", request => new ProductsController().Details(int.Parse(request.UrlParameters["id"])));
 
+            appRouteConfig
+                .Get("/orders", request => new ShoppingController().GetOrdersDetails(request));
+            appRouteConfig
+                .Get("/order/{(?<id>[0-9]+)}", 
+                request => new ShoppingController().GetOrderDetailsById(int.Parse(request.UrlParameters["id"])));
+
         }
     }
 }
