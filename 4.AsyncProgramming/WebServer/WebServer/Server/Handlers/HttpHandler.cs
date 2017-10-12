@@ -8,6 +8,7 @@
     using HTTP.Contracts;
     using HTTP.Response;
     using Routing.Contracts;
+    using System.Linq;
 
     public class HttpHandler : IRequestHandler
     {
@@ -24,12 +25,12 @@
         {
             try
             {
-                var loginPath = "/login";
+                var anonymousPaths = new[] { "/login", "/register" };
 
                 //CHeck if user is authenticated
-                if (httpContext.Request.Path != loginPath && !httpContext.Request.Session.Contains(SessionStore.CurrentUserKey))
+                if  (!anonymousPaths.Contains(httpContext.Request.Path) && !httpContext.Request.Session.Contains(SessionStore.CurrentUserKey))
                 {
-                    return new RedirectResponse("/login");
+                    return new RedirectResponse(anonymousPaths.First());
                 }
 
                 var requestMethod = httpContext.Request.Method;

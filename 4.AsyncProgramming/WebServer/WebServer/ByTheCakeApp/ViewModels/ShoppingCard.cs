@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace WebServer.ByTheCakeApp.Models
 {
@@ -8,6 +6,6 @@ namespace WebServer.ByTheCakeApp.Models
     {
         public const string SessionKey = "^%Current_Shopping_Card^%";
         
-        public List<Cake> Orders { get; private set; } = new List<Cake>();
+        public List<int> ProductIds { get; private set; } = new List<int>();
     }
 }

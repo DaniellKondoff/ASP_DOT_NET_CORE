@@ -19,8 +19,9 @@ namespace WebServer.ByTheCakeApp.Infrastructure
         {
             this.ViewData = new Dictionary<string, string>()
             {
-                ["authDisplay"] = "block"
-            };
+                ["authDisplay"] = "block",
+                ["showError"] = "none"
+        };
         }
 
         protected IHttpResponse FileViewResponse(string fileName)
@@ -46,6 +47,12 @@ namespace WebServer.ByTheCakeApp.Infrastructure
             var resultHtml = layoutHtml.Replace(ContentPlaceholder, fileHtml);
 
             return resultHtml;
+        }
+
+        protected void AddError(string errorMessage)
+        {
+            this.ViewData["showError"] = "block";
+            this.ViewData["error"] = errorMessage;
         }
     }
 }
