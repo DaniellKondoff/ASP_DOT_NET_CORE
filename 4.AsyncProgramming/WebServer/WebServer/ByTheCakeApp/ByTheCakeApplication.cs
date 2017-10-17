@@ -21,6 +21,9 @@ namespace WebServer.ByTheCakeApp
 
         public void Configure(IAppRouteConfig appRouteConfig)
         {
+            appRouteConfig.anonymousPaths.Add("/register");
+            appRouteConfig.anonymousPaths.Add("/login");
+
             appRouteConfig
                  .Get("/", request => new HomeController().Index());
 

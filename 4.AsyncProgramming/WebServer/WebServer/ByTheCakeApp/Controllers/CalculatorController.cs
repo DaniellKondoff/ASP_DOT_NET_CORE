@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebServer.ByTheCakeApp.Infrastructure;
+using WebServer.Infrastructure;
 using WebServer.Server.HTTP.Contracts;
 
 namespace WebServer.ByTheCakeApp.Controllers
 {
-    public class CalculatorController : ControllerBase
+    public class CalculatorController : BaseController
     {
         public IHttpResponse Calculate()
         {

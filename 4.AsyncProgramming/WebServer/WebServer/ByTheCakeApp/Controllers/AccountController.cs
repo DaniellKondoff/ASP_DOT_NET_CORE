@@ -1,5 +1,5 @@
 ﻿using System;
-using WebServer.ByTheCakeApp.Infrastructure;
+using WebServer.Infrastructure;
 using WebServer.ByTheCakeApp.Models;
 using WebServer.ByTheCakeApp.Services;
 using WebServer.ByTheCakeApp.Services.Contracts;
@@ -10,7 +10,7 @@ using WebServer.Server.HTTP.Response;
 
 namespace WebServer.ByTheCakeApp.Controllers
 {
-    public class AccountController : ControllerBase
+    public class AccountController : BaseController
     {
         private const string RegisterView = @"account\register";
         private const string LoginView = @"Account\login";
@@ -53,7 +53,7 @@ namespace WebServer.ByTheCakeApp.Controllers
             }
             else
             {
-                this.AddError("Invalid user details");
+                this.ShowError("Invalid user details");
 
                 return this.FileViewResponse(LoginView);
             }
@@ -109,7 +109,7 @@ namespace WebServer.ByTheCakeApp.Controllers
             //Validate The model
             if (model.Username.Length <3 || model.Password.Length <3 || model.ConfirmPassword != model.Password )
             {
-                this.AddError("Invalid user details !");
+                this.ShowError("Invalid user details !");
 
                 return this.FileViewResponse(RegisterView);
             }
@@ -124,7 +124,7 @@ namespace WebServer.ByTheCakeApp.Controllers
             }
             else
             {
-                this.AddError("This user name is taken");
+                this.ShowError("This user name is taken");
 
                 return this.FileViewResponse(RegisterView);
             }

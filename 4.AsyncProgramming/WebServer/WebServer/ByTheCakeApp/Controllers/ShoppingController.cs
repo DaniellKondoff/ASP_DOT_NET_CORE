@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using WebServer.ByTheCakeApp.Infrastructure;
+using WebServer.Infrastructure;
 using WebServer.ByTheCakeApp.Models;
 using WebServer.ByTheCakeApp.Services;
 using WebServer.ByTheCakeApp.Services.Contracts;
@@ -10,7 +10,7 @@ using WebServer.Server.HTTP.Response;
 
 namespace WebServer.ByTheCakeApp.Controllers
 {
-    public class ShoppingController : ControllerBase
+    public class ShoppingController : BaseController
     {
         private readonly IProductService productService;
         private readonly IUserService userService;

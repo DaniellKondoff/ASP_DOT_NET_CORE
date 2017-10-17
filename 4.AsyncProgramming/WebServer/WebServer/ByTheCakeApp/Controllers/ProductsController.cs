@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using WebServer.ByTheCakeApp.Infrastructure;
+using WebServer.Infrastructure;
 using WebServer.ByTheCakeApp.Models;
 using WebServer.ByTheCakeApp.Services;
 using WebServer.ByTheCakeApp.Services.Contracts;
@@ -10,7 +10,7 @@ using WebServer.Server.HTTP.Response;
 
 namespace WebServer.ByTheCakeApp.Controllers
 {
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseController
     {
         private const string AddView = @"products\add";
         private readonly IProductService productService;
@@ -30,7 +30,7 @@ namespace WebServer.ByTheCakeApp.Controllers
         {
             if (model.Name.Length < 3 || model.Name.Length > 30 || model.ImageUrl.Length <3 || model.ImageUrl.Length > 2000)
             {
-                this.AddError("Invalid Product");
+                this.ShowError("Invalid Product");
 
                 return this.FileViewResponse(AddView);
             }

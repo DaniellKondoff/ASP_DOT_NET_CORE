@@ -2,6 +2,7 @@
 {
     using WebServer.Application;
     using WebServer.ByTheCakeApp;
+    using WebServer.GaneStoreApp;
     using WebServer.Server.Contracts;
     using WebServer.Server.Routing;
     using WebServerr.Server;
@@ -17,7 +18,7 @@
 
         public void Run()
         {
-            var mainApplication = new ByTheCakeApplication();
+            var mainApplication = new GameStoreApplication();
             mainApplication.InitializeDatabase();
             var appRouteConfig = new AppRouteConfig();
             mainApplication.Configure(appRouteConfig);

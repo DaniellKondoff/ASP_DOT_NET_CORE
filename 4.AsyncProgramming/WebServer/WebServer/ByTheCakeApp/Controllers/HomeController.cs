@@ -1,9 +1,9 @@
 ﻿using WebServer.Server.HTTP.Contracts;
-using WebServer.ByTheCakeApp.Infrastructure;
+using WebServer.Infrastructure;
 
 namespace WebServer.ByTheCakeApp.Controllers
 {
-    public class HomeController : ControllerBase
+    public class HomeController : BaseController
     {
         public IHttpResponse Index()
         {

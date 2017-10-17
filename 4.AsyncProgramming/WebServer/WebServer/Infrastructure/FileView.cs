@@ -1,6 +1,6 @@
 ﻿using WebServer.Server.Contracts;
 
-namespace WebServer.ByTheCakeApp.Views.Home
+namespace WebServer.Infrastructure
 {
     public class FileView : IView
     {
